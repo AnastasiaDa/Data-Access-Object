@@ -7,7 +7,7 @@ import java.util.List;
 
 @Service
 public class DaoService {
-    DaoRepository daoRepository;
+    private final DaoRepository daoRepository;
 
     public DaoService(DaoRepository daoRepository) {
         this.daoRepository = daoRepository;

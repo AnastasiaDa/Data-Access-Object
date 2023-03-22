@@ -15,10 +15,12 @@ import java.util.stream.Collectors;
 @Repository
 public class DaoRepository {
 
-    private static NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final String nameOfScript;
 
     public DaoRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+        nameOfScript = read("find_product_name.sql");
     }
 
     private static String read(String scriptFileName) {
@@ -30,8 +32,9 @@ public class DaoRepository {
         }
     }
 
-    public static List<String> getProductName(String name) {
-        String nameOfScript = read("find_product_name.sql");
-        return namedParameterJdbcTemplate.queryForList(nameOfScript, Map.of("name", name), String.class);
+    public List<String> getProductName(String name) {
+//        String nameOfScript = read("find_product_name.sql");
+        var list = namedParameterJdbcTemplate.queryForList(nameOfScript, Map.of("name", name), String.class);
+        return list;
     }
 }
